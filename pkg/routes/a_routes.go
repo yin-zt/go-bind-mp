@@ -22,6 +22,9 @@ func InitRoutes() *gin.Engine {
 	capacity := config.Conf.RateLimit.Capacity
 	r.Use(middleware.RateLimitMiddleware(time.Millisecond*fillInterval, capacity))
 
+	// 启用全局跨域中间件
+	r.Use(middleware.CORSMiddleware())
+
 	// 路由分组
 	apiGroup := r.Group("/" + config.Conf.System.UrlPathPrefix)
 
