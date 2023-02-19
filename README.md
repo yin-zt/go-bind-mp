@@ -14,8 +14,8 @@
 
 <p> 🐉 简单好用，不缠不绕，直接上手的go-backend框架 </p>
 
-![logo](doc/logo.png)
-
+![logo](cmd/docs/logo.png)
+![api](cmd/docs/postman.png)
 
 
 ## 🥸 项目介绍
