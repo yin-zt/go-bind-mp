@@ -1,11 +1,13 @@
 package isql
 
 import (
+	"errors"
 	"fmt"
 	"github.com/yin-zt/go-bind-mp/pkg/model"
 	"github.com/yin-zt/go-bind-mp/pkg/model/request"
 	"github.com/yin-zt/go-bind-mp/pkg/util/common"
 	"github.com/yin-zt/go-bind-mp/pkg/util/tools"
+	"gorm.io/gorm"
 	"strings"
 )
 
@@ -46,4 +48,21 @@ func (z ZoneService) Add(zone *model.Zone) error {
 	//result := common.DB.Create(user)
 	//return user.ID, result.Error
 	return common.DB.Create(zone).Error
+}
+
+// Exist 判断zone资源是否存在
+func (z ZoneService) Exist(filter map[string]interface{}) bool {
+	var dataObj model.Zone
+	err := common.DB.Where(filter).First(&dataObj).Error
+	return !errors.Is(err, gorm.ErrRecordNotFound)
+}
+
+// CheckRelateDomains 判断zone资源是否关联其他domains实例
+func (z ZoneService) CheckRelateDomains(filter map[string]interface{}) bool {
+	var dataObj model.Zone
+	_ = common.DB.Where(filter).Preload("Domains").First(&dataObj).Error
+	if len(dataObj.Domains) != 0 {
+		return true
+	}
+	return false
 }

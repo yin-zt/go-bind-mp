@@ -80,3 +80,29 @@ func (z ZoneLogic) Add(c *gin.Context, req interface{}) (data interface{}, resEr
 	log.Info("添加zone记录成功")
 	return nil, nil
 }
+
+// Delete 删除zone记录
+func (z ZoneLogic) Delete(c *gin.Context, req interface{}) (data interface{}, rspError interface{}) {
+	r, ok := req.(*request.ZoneDeleteReq)
+	if !ok {
+		return nil, ReqAssertErr
+	}
+	_ = c
+
+	for _, id := range r.ZoneIds {
+		filter := tools.H{"id": int(id)}
+		if !isql.Zone.Exist(filter) {
+			return nil, tools.NewMySqlError(fmt.Errorf("zone资源不存在"))
+		}
+		if isql.Zone.CheckRelateDomains(filter) {
+			return nil, tools.NewMySqlError(fmt.Errorf("待删除的视图资源还关联其他domain资源"))
+		}
+	}
+
+	// 再将zone资源从MySQL中删除
+	err := isql.View.Delete(r.ZoneIds)
+	if err != nil {
+		return nil, tools.NewMySqlError(fmt.Errorf("在MySQL删除zone资源失败: " + err.Error()))
+	}
+	return nil, nil
+}

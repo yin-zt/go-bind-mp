@@ -10,6 +10,7 @@ func InitZoneRoutes(r *gin.RouterGroup) gin.IRoutes {
 	{
 		domain.GET("/list", controller.Zone.List)
 		domain.POST("/add", controller.Zone.Add)
+		domain.POST("/delete", controller.Zone.Delete)
 	}
 	return r
 }

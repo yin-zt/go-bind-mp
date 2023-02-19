@@ -14,3 +14,7 @@ type ZoneAddReq struct {
 	ViewsId   []uint `json:"views_id" validate:"required"`
 	DomainsId []uint `json:"domains_id" validate:"required"`
 }
+
+type ZoneDeleteReq struct {
+	ZoneIds []uint `json:"zoneids" validate:"required"`
+}
