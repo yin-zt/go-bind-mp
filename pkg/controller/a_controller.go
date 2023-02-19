@@ -16,6 +16,7 @@ var (
 	Domain = &DomainController{}
 	View   = &ViewController{}
 	Zone   = &ZoneController{}
+	Base   = &BaseController{}
 
 	validate = validator.New()
 	trans    ut.Translator

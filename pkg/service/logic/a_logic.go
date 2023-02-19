@@ -13,6 +13,7 @@ var (
 	Domain = &DomainLogic{}
 	View   = &ViewLogic{}
 	Zone   = &ZoneLogic{}
+	Base   = &BaseLogic{}
 )
 
 // CommonAddDomain 标准创建域名

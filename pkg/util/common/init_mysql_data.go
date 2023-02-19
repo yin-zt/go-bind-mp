@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/yin-zt/go-bind-mp/pkg/config"
 	"github.com/yin-zt/go-bind-mp/pkg/model"
+	"github.com/yin-zt/go-bind-mp/pkg/model/user"
 
 	"github.com/jinzhu/gorm"
 )
@@ -13,6 +14,33 @@ func InitData() {
 	// 是否初始化数据
 	if !config.Conf.System.InitData {
 		return
+	}
+
+	// 写入用户数据
+	newUsers := make([]*user.User, 0)
+	users := []*user.User{
+		{
+			Model:    gorm.Model{ID: 1},
+			Username: "admin",
+			Password: "VjjxGSQvPTt+9tnQHo7Vo+cVpW7s32fXdBALoi+mF93R+Qa3tKp9TxHcGv8+LmLVdYzRwNbfAYtEffBSyt+FOIIXhiAwYp+8waOMMjgR+l93lOkm9bnB+29n/MdT7B89PAVRzGi0wG/Oy9xrXy3h3MSGWR2jM0sdtTxlg5WHhVo=",
+			Nickname: "mailong",
+		},
+	}
+	for _, user := range users {
+		err := DB.First(&user, user.ID).Error
+		//if errors.Is(err, gorm.ErrRecordNotFound) {
+		//if err == gorm.ErrRecordNotFound {
+		if err != nil {
+			newUsers = append(newUsers, user)
+		}
+	}
+
+	if len(newUsers) > 0 {
+		err := DB.Create(&newUsers).Error
+		if err != nil {
+			//Log.Errorf("写入系统角色数据失败：%v", err)
+			fmt.Println("写入用户数据失败")
+		}
 	}
 
 	// 1.写入View数据

@@ -25,14 +25,23 @@ func InitRoutes() *gin.Engine {
 	// 启用全局跨域中间件
 	r.Use(middleware.CORSMiddleware())
 
+	// 初始化JWT认证中间件
+	authMiddleware, err := middleware.InitAuth()
+	if err != nil {
+		log.Errorf("初始化JWT中间件失败：%v", err)
+		log.Errorf("初始化JWT中间件失败：%v", err)
+	}
+
+	_ = authMiddleware
+
 	// 路由分组
 	apiGroup := r.Group("/" + config.Conf.System.UrlPathPrefix)
 
 	// 注册路由
-	InitBaseRoutes(apiGroup)   // 注册基础路由, 不需要jwt认证中间件,不需要casbin中间件
-	InitDomainRoutes(apiGroup) // 注册域名路由
-	InitViewRoutes(apiGroup)   // 注册视图路由
-	InitZoneRoutes(apiGroup)   // 注册Zone路由
+	InitBaseRoutes(apiGroup, authMiddleware) // 注册基础路由, 不需要jwt认证中间件,不需要casbin中间件
+	InitDomainRoutes(apiGroup)               // 注册域名路由
+	InitViewRoutes(apiGroup)                 // 注册视图路由
+	InitZoneRoutes(apiGroup)                 // 注册Zone路由
 
 	log.Info("初始化路由完成！")
 	return r

@@ -5,6 +5,7 @@ import (
 	log "github.com/cihub/seelog"
 	"github.com/yin-zt/go-bind-mp/pkg/config"
 	"github.com/yin-zt/go-bind-mp/pkg/model"
+	"github.com/yin-zt/go-bind-mp/pkg/model/user"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -69,5 +70,6 @@ func dbAutoMigrate() {
 		&model.Domain{},
 		&model.View{},
 		&model.Zone{},
+		&user.User{},
 	)
 }
