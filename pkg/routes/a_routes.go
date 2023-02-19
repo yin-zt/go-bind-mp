@@ -4,6 +4,8 @@ import (
 	log "github.com/cihub/seelog"
 	"github.com/gin-gonic/gin"
 	"github.com/yin-zt/go-bind-mp/pkg/config"
+	"github.com/yin-zt/go-bind-mp/pkg/middleware"
+	"time"
 )
 
 func InitRoutes() *gin.Engine {
@@ -13,6 +15,12 @@ func InitRoutes() *gin.Engine {
 	// 创建带有默认中间件的路由:
 	// 日志与恢复中间件
 	r := gin.Default()
+
+	// 启用限流中间件
+	// 默认没50毫秒填充一个令牌，最多填充200个
+	fillInterval := time.Duration(config.Conf.RateLimit.FillInterval)
+	capacity := config.Conf.RateLimit.Capacity
+	r.Use(middleware.RateLimitMiddleware(time.Millisecond*fillInterval, capacity))
 
 	// 路由分组
 	apiGroup := r.Group("/" + config.Conf.System.UrlPathPrefix)

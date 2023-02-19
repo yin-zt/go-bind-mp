@@ -46,7 +46,7 @@ type config struct {
 	Mysql  *MysqlConfig  `mapstructure:"mysql" json:"mysql"`
 	//Casbin    *CasbinConfig    `mapstructure:"casbin" json:"casbin"`
 	//Jwt       *JwtConfig       `mapstructure:"jwt" json:"jwt"`
-	//RateLimit *RateLimitConfig `mapstructure:"rate-limit" json:"rateLimit"`
+	RateLimit *RateLimitConfig `mapstructure:"rate-limit" json:"rateLimit"`
 }
 
 type SystemConfig struct {
@@ -75,4 +75,9 @@ type MysqlConfig struct {
 
 type LogsConfig struct {
 	LogConfigStr string `mapstructure:"log-config-str" json:"logconfigstr"`
+}
+
+type RateLimitConfig struct {
+	FillInterval int64 `mapstructure:"fill-interval" json:"fillInterval"`
+	Capacity     int64 `mapstructure:"capacity" json:"capacity"`
 }
