@@ -16,10 +16,6 @@
 
 ![logo](doc/logo.png)
 
-<p align="center">
-  <a href="" rel="noopener">
- <img src="https://cdn.staticaly.com/gh/eryajf/tu/main/img/image_20220826_101156.png" alt="Project logo"></a>
-</p>
 
 
 ## 🥸 项目介绍
