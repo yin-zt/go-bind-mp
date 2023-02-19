@@ -16,6 +16,14 @@ func (z *ZoneController) List(c *gin.Context) {
 }
 
 func (z *ZoneController) Add(c *gin.Context) {
+	req := new(request.ZoneAddReq)
+	Run(c, req, func() (interface{}, interface{}) {
+		return logic.Zone.Add(c, req)
+	})
+}
+
+// Delete 删除zone记录
+func (z *ZoneController) Delete(c *gin.Context) {
 	req := new(request.ZoneDeleteReq)
 	Run(c, req, func() (interface{}, interface{}) {
 		return logic.Zone.Delete(c, req)

@@ -66,3 +66,30 @@ func (z ZoneService) CheckRelateDomains(filter map[string]interface{}) bool {
 	}
 	return false
 }
+
+// Find 获取单个资源
+func (z ZoneService) Find(filter map[string]interface{}, data *model.Zone) error {
+	return common.DB.Where(filter).Preload("Views").Preload("Domains").First(&data).Error
+}
+
+// Delete zone批量删除
+func (z ZoneService) Delete(ids []uint) error {
+	var zones []model.Zone
+	for _, id := range ids {
+		// 根据ID获取域名信息
+		filter := tools.H{"id": id}
+
+		zone := new(model.Zone)
+		err := z.Find(filter, zone)
+		if err != nil {
+			return fmt.Errorf("获取zone资源失败，err: %v", err)
+		}
+		zones = append(zones, *zone)
+	}
+
+	err := common.DB.Debug().Select("Views", "Domains").Unscoped().Delete(&zones).Error
+	if err != nil {
+		return err
+	}
+	return err
+}

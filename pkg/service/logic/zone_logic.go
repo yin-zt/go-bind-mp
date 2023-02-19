@@ -100,7 +100,7 @@ func (z ZoneLogic) Delete(c *gin.Context, req interface{}) (data interface{}, rs
 	}
 
 	// 再将zone资源从MySQL中删除
-	err := isql.View.Delete(r.ZoneIds)
+	err := isql.Zone.Delete(r.ZoneIds)
 	if err != nil {
 		return nil, tools.NewMySqlError(fmt.Errorf("在MySQL删除zone资源失败: " + err.Error()))
 	}
