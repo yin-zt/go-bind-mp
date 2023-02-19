@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1 align="center">XiRang</h1>
+<h1 align="center">go-bind-mp</h1>
 
 [![Auth](https://img.shields.io/badge/Auth-eryajf-ff69b4)](https://github.com/eryajf)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/eryajf/xirang)](https://github.com/eryajf/xirang)
